@@ -24,9 +24,10 @@ An interactive web application and political analysis archive tracking the endor
 
 ```
 deace-losses/
-├── index.html   # Main HTML markup, filter controls, dashboard UI, and modal container
-├── styles.css   # Modern CSS layout, custom properties, responsive grid, and component styles
-└── app.js       # Candidate dataset, filter/search logic, view rendering, and modal handlers
+├── index.html        # Main HTML markup with Open Graph / Twitter Card metadata
+├── styles.css        # Modern CSS layout, custom properties, responsive grid, and component styles
+├── app.js            # Candidate dataset, filter/search logic, view rendering, and modal handlers
+└── card-preview.png  # High-resolution social share preview image (Twitter / Open Graph card)
 ```
 
 ## 🚀 Getting Started
