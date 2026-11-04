@@ -1,12 +1,40 @@
 /**
  * Steve Deace Endorsement Scorecard - Application Logic
- * Analysis: 66.7% of endorsed candidates fail to win targeted office (10 Defeats vs 5 Wins)
+ * Analysis: 68.8% of endorsed candidates fail to win targeted office (11 Defeats vs 5 Wins)
  */
 
 // Dataset of Steve Deace endorsed candidates (Wins & Losses)
 // Criterion: "A win is only counted if the endorsed candidate won the seat."
 const CANDIDATES = [
-  // --- DEFEATS / SEATS LOST (10 Races) ---
+  // --- DEFEATS / SEATS LOST (11 Races) ---
+  {
+    id: "lahn-2026",
+    name: "Zach Lahn",
+    year: 2026,
+    outcome: "LOSS",
+    wonSeat: false,
+    office: "Governor",
+    raceName: "2026 Iowa Gubernatorial General Election",
+    state: "Iowa",
+    lossType: "General Election Defeat",
+    candidateVote: "44.2%",
+    candidateNum: 44.2,
+    winnerName: "Rob Sand (Democrat)",
+    winnerVote: "55.7%",
+    winnerNum: 55.7,
+    marginText: "Lost General Election by 11.5% to Rob Sand",
+    marginValue: 11.5,
+    deaceQuote: "This is why you vote @ZachLahn for governor right here... A principled conservative outsider who won't bend to the establishment.",
+    quoteDate: "June 2026",
+    quoteUrl: "https://www.kcci.com/article/iowa-election-results-2026-governor-candidates-zach-lahn-rob-sand/74277302",
+    quoteSourceTitle: "KCCI News Election Results / BlazeTV",
+    contextHtml: `
+      <p>In the 2026 Iowa gubernatorial election, Steve Deace threw his endorsement and substantial media backing behind conservative businessman and farmer Zach Lahn. After Deace's initial preferred primary candidate Adam Steen failed to gain traction, Deace released a pivotal last-minute video endorsement for Lahn days before the June 2, 2026 Republican primary.</p>
+      <p>Deace later claimed on <em>The Steve Deace Show</em> that his late video endorsement served as "the last spackle of frosting on the cake" that propelled Lahn to a razor-thin primary upset over Trump-endorsed frontrunner Rep. Randy Feenstra.</p>
+      <p>Throughout the general election, Deace ardently championed Lahn as a fearless populist outsider aligned with "Make America Healthy Again" (MAHA) principles. However, on November 3, 2026, Democratic State Auditor Rob Sand defeated Lahn by 11.5 percentage points (55.7% to 44.2%). Sand's victory broke a decade-long Republican trifecta in Iowa and marked the first Democratic gubernatorial victory in the state since 2006, delivering another high-profile general election loss for a Deace-backed executive candidate.</p>
+      <p><a href="https://www.kcci.com/article/iowa-election-results-2026-governor-candidates-zach-lahn-rob-sand/74277302" target="_blank" rel="noopener noreferrer">Read full race results on KCCI News &rarr;</a></p>
+    `
+  },
   {
     id: "trump-2020",
     name: "Donald Trump",
@@ -73,9 +101,9 @@ const CANDIDATES = [
     candidateVote: "Defeated",
     candidateNum: 15.0,
     winnerName: "Zach Lahn",
-    winnerVote: "Primary Nominee",
-    winnerNum: 50.0,
-    marginText: "Campaign failed to gain polling traction",
+    winnerVote: "Primary Nominee (37.6%)",
+    winnerNum: 37.6,
+    marginText: "Campaign failed to gain polling traction; withdrew before primary",
     marginValue: 35.0,
     deaceQuote: "Adam Steen has the conviction, courage, and backbone to stand up to the political establishment in Des Moines.",
     quoteDate: "November 2025",
@@ -83,7 +111,7 @@ const CANDIDATES = [
     quoteSourceTitle: "The Iowa Standard Endorsement Announcement",
     contextHtml: `
       <p>In November 2025, Steve Deace endorsed former Iowa Department of Administrative Services Director Adam Steen for Governor of Iowa.</p>
-      <p>Steen's primary campaign struggled to gain traction among Republican voters. Deace later conceded on his podcast that Steen's campaign "just never took off," resulting in another primary defeat for his preferred candidate.</p>
+      <p>Steen's primary campaign struggled to gain traction among Republican voters. Deace later conceded on his podcast that Steen's campaign "just never took off." Following Steen's departure, Deace shifted his backing to eventual nominee Zach Lahn, who also went on to lose the general election to Democrat Rob Sand.</p>
     `
   },
   {
@@ -565,13 +593,25 @@ function updateStatsCounters() {
   if (statDefeatRate) statDefeatRate.textContent = `${defeatRatePct}%`;
   if (statLosses) statLosses.textContent = losses;
   if (statWins) statWins.textContent = wins;
+
+  // Dynamically update outcome tabs and banner badges
+  const lossTabBtn = document.querySelector("#outcome-tabs .btn-loss-filter");
+  const winTabBtn = document.querySelector("#outcome-tabs .btn-win-filter");
+  if (lossTabBtn) lossTabBtn.textContent = `Seats Lost / Defeated (${losses})`;
+  if (winTabBtn) winTabBtn.textContent = `Seats Won (${wins})`;
+
+  const topBarBadge = document.querySelector(".top-bar-badge");
+  if (topBarBadge) topBarBadge.textContent = `High Candidate Failure Rate (${defeatRatePct}% Defeat Rate)`;
 }
 
 // Render Candidate Cards
 function renderCandidates() {
   const filtered = getFilteredCandidates();
+  const totalLosses = CANDIDATES.filter(c => c.outcome === "LOSS").length;
+  const totalWins = CANDIDATES.filter(c => c.outcome === "WIN").length;
+  const defeatRatePct = ((totalLosses / CANDIDATES.length) * 100).toFixed(1);
   
-  showingCountText.textContent = `Showing ${filtered.length} of ${CANDIDATES.length} endorsed candidates (10 Defeats / 5 Wins — 66.7% Candidate Failure Rate)`;
+  showingCountText.textContent = `Showing ${filtered.length} of ${CANDIDATES.length} endorsed candidates (${totalLosses} Defeats / ${totalWins} Wins — ${defeatRatePct}% Candidate Failure Rate)`;
 
   if (filtered.length === 0) {
     candidatesContainer.innerHTML = "";

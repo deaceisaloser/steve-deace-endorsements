@@ -4,8 +4,8 @@ An interactive web application and political analysis archive tracking the endor
 
 ## 📊 Overview
 
-- **Track Record Analyzed:** 15 High-Profile Endorsements (2008–2026)
-- **Candidate Defeat Rate:** 66.7% (10 Defeats vs. 5 Victories)
+- **Track Record Analyzed:** 16 High-Profile Endorsements (2008–2026)
+- **Candidate Defeat Rate:** 68.8% (11 Defeats vs. 5 Victories)
 - **Key Criterion:** A win is counted only when the endorsed candidate successfully captures the targeted office.
 
 ## ✨ Features
